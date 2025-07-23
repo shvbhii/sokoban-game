@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { RotateCcw, SkipForward, Trophy, Target } from 'lucide-react';
+// Import the new icons we need for the footer
+import { RotateCcw, SkipForward, Trophy, Target, Github, Linkedin } from 'lucide-react';
 
 const CELL_SIZE = 50;
 const EMPTY = 0;
@@ -10,10 +11,8 @@ const PLAYER = 4;
 const BOX_ON_TARGET = 5;
 const PLAYER_ON_TARGET = 6;
 
-// The 'levels' array now contains 10 solvable levels.
-// The first 5 are your originals, and levels 6-10 are new additions.
 const levels = [
-  // --- Your Original 5 Levels ---
+  // ... (all 10 levels remain here, no changes needed) ...
   // Level 1
   [
     [1,1,1,1,1,1,1],
@@ -60,10 +59,7 @@ const levels = [
     [1,1,0,0,0,1,1,1],
     [1,1,1,1,1,1,1,1]
   ],
-
-  // --- NEW ADDITIONAL LEVELS ---
-  
-  // Level 6 - "The Hallway"
+  // Level 6
   [
     [1,1,1,1,1,1,1,1],
     [1,1,1,0,0,0,1,1],
@@ -71,8 +67,7 @@ const levels = [
     [1,1,1,0,0,0,1,1],
     [1,1,1,1,1,1,1,1]
   ],
-  
-  // Level 7 - "Crossroads"
+  // Level 7
   [
     [1,1,1,1,1,1,1],
     [1,0,0,3,0,0,1],
@@ -82,8 +77,7 @@ const levels = [
     [1,0,0,3,0,0,1],
     [1,1,1,1,1,1,1]
   ],
-
-  // Level 8 - "Open Space"
+  // Level 8
   [
     [1,1,1,1,1,1,1,1,1],
     [1,0,0,0,0,0,0,0,1],
@@ -93,8 +87,7 @@ const levels = [
     [1,0,0,0,0,0,0,0,1],
     [1,1,1,1,1,1,1,1,1]
   ],
-
-  // Level 9 - "The Trap"
+  // Level 9
   [
     [1,1,1,1,1,1,1],
     [1,0,0,0,1,1,1],
@@ -104,8 +97,7 @@ const levels = [
     [1,1,1,3,1,1,1],
     [1,1,1,1,1,1,1]
   ],
-
-  // Level 10 - "Final Puzzle"
+  // Level 10
   [
     [1,1,1,1,1,1,1,1,1],
     [1,1,0,0,0,0,0,1,1],
@@ -117,7 +109,13 @@ const levels = [
   ]
 ];
 
+
+const GITHUB_URL = "https://github.com/shvbhii/sokoban-game.git"; 
+const LINKEDIN_URL = "https://www.linkedin.com/in/shvbhi";
+
+
 const SokobanGame = () => {
+  
   const [currentLevel, setCurrentLevel] = useState(0);
   const [gameState, setGameState] = useState([]);
   const [playerPos, setPlayerPos] = useState({ x: 0, y: 0 });
@@ -209,14 +207,13 @@ const SokobanGame = () => {
 
       newGameState[boxNewY][boxNewX] = boxTargetCell === TARGET ? BOX_ON_TARGET : BOX;
       
-      // Clear the player's old spot
+      
       const oldPlayerCell = newGameState[playerPos.y][playerPos.x];
       newGameState[playerPos.y][playerPos.x] = oldPlayerCell === PLAYER_ON_TARGET ? TARGET : EMPTY;
       
-      // Move player into the box's old spot
+      
       newGameState[newY][newX] = targetCell === BOX_ON_TARGET ? PLAYER_ON_TARGET : PLAYER;
 
-      // This logic was causing bugs. Simpler to just update player pos state.
       setPlayerPos({ x: newX, y: newY });
       setGameState(newGameState);
       setMoves(prev => prev + 1);
@@ -401,10 +398,25 @@ const SokobanGame = () => {
           )}
         </div>
         
-        <div className="text-center text-white/70 text-sm">
+        <div className="text-center text-white/70 text-sm mb-6">
           <p>Use arrow keys or WASD to move • R to reset • U to undo</p>
           <p className="mt-1">Push boxes (📦) onto targets (🎯) to complete each level</p>
         </div>
+
+        <footer className="border-t border-white/20 pt-4 text-center text-white/70 text-sm">
+          <p className="mb-3">Made by Shubhi Sharma</p>
+          <div className="flex justify-center items-center gap-6">
+            <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white transition-colors">
+              <Linkedin className="w-4 h-4" />
+              Connect via LinkedIn
+            </a>
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white transition-colors">
+              <Github className="w-4 h-4" />
+              View Source on GitHub
+            </a>
+          </div>
+        </footer>
+
       </div>
     </div>
   );
